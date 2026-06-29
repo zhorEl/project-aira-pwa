@@ -14,6 +14,21 @@ export interface MapLayerState {
   validation: boolean;
 }
 
+export type MapStyleKey = "auto" | "satellite" | "outdoors" | "light" | "dark";
+
+export const MAP_STYLES: Record<Exclude<MapStyleKey, "auto">, string> = {
+  satellite: "mapbox://styles/mapbox/satellite-streets-v12",
+  outdoors: "mapbox://styles/mapbox/outdoors-v12",
+  light: "mapbox://styles/mapbox/light-v11",
+  dark: "mapbox://styles/mapbox/dark-v11",
+};
+
+// Bukidnon province bounding box (SW → NE), keeps the view over the coffee region.
+const BUKIDNON_BOUNDS: [[number, number], [number, number]] = [
+  [124.35, 7.35],
+  [125.65, 8.95],
+];
+
 const varietyColors: Record<string, string> = {
   Arabica: "#5f8a3f",
   Robusta: "#a86f3f",
@@ -25,10 +40,12 @@ export function CoffeeMap({
   layers,
   className,
   interactive = true,
+  mapStyle = "auto",
 }: {
   layers: MapLayerState;
   className?: string;
   interactive?: boolean;
+  mapStyle?: MapStyleKey;
 }) {
   const container = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
@@ -36,46 +53,60 @@ export function CoffeeMap({
   const [ready, setReady] = useState(false);
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
+  const resolveStyle = (key: MapStyleKey) =>
+    key === "auto"
+      ? resolvedTheme === "dark"
+        ? MAP_STYLES.dark
+        : MAP_STYLES.outdoors
+      : MAP_STYLES[key];
+
+  // Initialize the map once.
   useEffect(() => {
     if (!token || !container.current || map.current) return;
     mapboxgl.accessToken = token;
     map.current = new mapboxgl.Map({
       container: container.current,
-      style:
-        resolvedTheme === "dark"
-          ? "mapbox://styles/mapbox/dark-v11"
-          : "mapbox://styles/mapbox/outdoors-v12",
+      style: resolveStyle(mapStyle),
       center: [MAP_CENTER.lng, MAP_CENTER.lat],
-      zoom: 9.5,
+      zoom: 9.2,
+      maxBounds: BUKIDNON_BOUNDS,
       attributionControl: false,
     });
     if (interactive) {
-      map.current.addControl(new mapboxgl.NavigationControl({ showCompass: false }), "bottom-right");
+      map.current.addControl(
+        new mapboxgl.NavigationControl({ showCompass: false }),
+        "bottom-right"
+      );
     }
     map.current.on("load", () => {
       setupSources(map.current!);
+      applyVisibility(map.current!, layers);
       setReady(true);
     });
     return () => {
       map.current?.remove();
       map.current = null;
+      setReady(false);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
-  // Toggle layer visibility
+  // Swap base style (Mapbox drops custom layers on style change → re-add them).
   useEffect(() => {
     if (!ready || !map.current) return;
     const m = map.current;
-    const set = (id: string, visible: boolean) => {
-      if (m.getLayer(id)) m.setLayoutProperty(id, "visibility", visible ? "visible" : "none");
-    };
-    set("farms-heat", layers.heatmap);
-    set("farms-points", layers.farms);
-    set("coop-points", layers.cooperatives);
-    set("farm-boundaries", layers.boundaries);
-    set("farm-boundaries-line", layers.boundaries);
-    set("validation-points", layers.validation);
+    m.setStyle(resolveStyle(mapStyle));
+    m.once("styledata", () => {
+      setupSources(m);
+      applyVisibility(m, layers);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mapStyle, resolvedTheme]);
+
+  // Toggle layer visibility.
+  useEffect(() => {
+    if (!ready || !map.current) return;
+    applyVisibility(map.current, layers);
   }, [layers, ready]);
 
   if (!token) {
@@ -83,6 +114,18 @@ export function CoffeeMap({
   }
 
   return <div ref={container} className={className} />;
+}
+
+function applyVisibility(m: mapboxgl.Map, layers: MapLayerState) {
+  const set = (id: string, visible: boolean) => {
+    if (m.getLayer(id)) m.setLayoutProperty(id, "visibility", visible ? "visible" : "none");
+  };
+  set("farms-heat", layers.heatmap);
+  set("farms-points", layers.farms);
+  set("coop-points", layers.cooperatives);
+  set("farm-boundaries", layers.boundaries);
+  set("farm-boundaries-line", layers.boundaries);
+  set("validation-points", layers.validation);
 }
 
 function setupSources(m: mapboxgl.Map) {

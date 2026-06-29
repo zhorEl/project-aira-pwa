@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Search, Layers as LayersIcon, Filter, Crosshair, Coffee, Sprout, Building2 } from "lucide-react";
-import { CoffeeMap, type MapLayerState } from "@/components/map/coffee-map";
+import { CoffeeMap, type MapLayerState, type MapStyleKey } from "@/components/map/coffee-map";
 import { LayerControl } from "@/components/map/layer-control";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,7 @@ export default function MapPage() {
     validation: false,
   });
   const [panelOpen, setPanelOpen] = useState(true);
+  const [mapStyle, setMapStyle] = useState<MapStyleKey>("auto");
 
   const totalProduction = farms.reduce((s, f) => s + f.annualProduction, 0);
 
@@ -96,7 +97,7 @@ export default function MapPage() {
 
       {/* Map */}
       <div className="relative flex-1">
-        <CoffeeMap layers={layers} className="absolute inset-0 h-full w-full" />
+        <CoffeeMap layers={layers} mapStyle={mapStyle} className="absolute inset-0 h-full w-full" />
 
         {/* Top toolbar */}
         <div className="absolute left-4 right-4 top-4 flex items-center gap-2">
@@ -122,7 +123,7 @@ export default function MapPage() {
 
         {/* Layer control */}
         <div className="absolute right-4 top-16">
-          <LayerControl layers={layers} onChange={setLayers} />
+          <LayerControl layers={layers} onChange={setLayers} mapStyle={mapStyle} onStyleChange={setMapStyle} />
         </div>
 
         {/* Bottom legend chip */}

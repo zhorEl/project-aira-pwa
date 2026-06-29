@@ -18,7 +18,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Avatar } from "@/components/ui/avatar";
-import { CoffeeMap, type MapLayerState } from "@/components/map/coffee-map";
+import { CoffeeMap, type MapLayerState, type MapStyleKey } from "@/components/map/coffee-map";
 import { LayerControl } from "@/components/map/layer-control";
 import { ProductionAreaChart, VarietyPieChart } from "@/components/charts/charts";
 import {
@@ -39,6 +39,7 @@ export default function DashboardPage() {
     boundaries: false,
     validation: false,
   });
+  const [mapStyle, setMapStyle] = useState<MapStyleKey>("auto");
 
   return (
     <div>
@@ -80,9 +81,9 @@ export default function DashboardPage() {
             <Badge variant="success">Live</Badge>
           </div>
           <div className="relative h-[460px]">
-            <CoffeeMap layers={layers} className="absolute inset-0 h-full w-full" />
+            <CoffeeMap layers={layers} mapStyle={mapStyle} className="absolute inset-0 h-full w-full" />
             <div className="absolute right-4 top-4">
-              <LayerControl layers={layers} onChange={setLayers} />
+              <LayerControl layers={layers} onChange={setLayers} mapStyle={mapStyle} onStyleChange={setMapStyle} />
             </div>
           </div>
         </Card>

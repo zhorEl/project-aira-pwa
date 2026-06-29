@@ -1,7 +1,7 @@
 "use client";
 
-import { Flame, Sprout, Building2, Hexagon, ShieldCheck } from "lucide-react";
-import type { MapLayerState } from "./coffee-map";
+import { Flame, Sprout, Building2, Hexagon, ShieldCheck, Mountain, Satellite, Sun, Moon } from "lucide-react";
+import type { MapLayerState, MapStyleKey } from "./coffee-map";
 import { Switch } from "@/components/ui/misc";
 import { cn } from "@/lib/utils";
 
@@ -18,13 +18,24 @@ const LAYERS: {
   { key: "validation", label: "Validation Layer", icon: ShieldCheck, color: "text-warning" },
 ];
 
+const STYLES: { key: Exclude<MapStyleKey, "auto">; label: string; icon: typeof Sun }[] = [
+  { key: "satellite", label: "Satellite", icon: Satellite },
+  { key: "outdoors", label: "Terrain", icon: Mountain },
+  { key: "light", label: "Light", icon: Sun },
+  { key: "dark", label: "Dark", icon: Moon },
+];
+
 export function LayerControl({
   layers,
   onChange,
+  mapStyle,
+  onStyleChange,
   className,
 }: {
   layers: MapLayerState;
   onChange: (l: MapLayerState) => void;
+  mapStyle?: MapStyleKey;
+  onStyleChange?: (s: MapStyleKey) => void;
   className?: string;
 }) {
   return (
@@ -34,6 +45,35 @@ export function LayerControl({
         className
       )}
     >
+      {onStyleChange && (
+        <div className="mb-3 border-b border-border pb-3">
+          <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+            Base Map
+          </p>
+          <div className="grid grid-cols-4 gap-1">
+            {STYLES.map((s) => {
+              const Icon = s.icon;
+              const active = (mapStyle ?? "auto") === s.key;
+              return (
+                <button
+                  key={s.key}
+                  onClick={() => onStyleChange(s.key)}
+                  title={s.label}
+                  className={cn(
+                    "flex flex-col items-center gap-1 rounded-lg border px-1 py-1.5 text-[10px] font-medium transition-colors",
+                    active
+                      ? "border-primary bg-primary/10 text-primary"
+                      : "border-transparent text-muted-foreground hover:bg-accent"
+                  )}
+                >
+                  <Icon className="h-4 w-4" />
+                  {s.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
       <p className="mb-2 px-1 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
         Map Layers
       </p>
