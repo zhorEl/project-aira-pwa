@@ -1,0 +1,170 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 30% 98%;
+    --foreground: 30 12% 12%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 30 12% 12%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 30 12% 12%;
+
+    --primary: 95 38% 36%;
+    --primary-foreground: 80 60% 97%;
+
+    --secondary: 30 25% 94%;
+    --secondary-foreground: 30 20% 22%;
+
+    --muted: 36 24% 95%;
+    --muted-foreground: 30 8% 44%;
+
+    --accent: 30 35% 92%;
+    --accent-foreground: 28 35% 25%;
+
+    --destructive: 0 72% 48%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 60% 38%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 48%;
+    --warning-foreground: 30 30% 12%;
+
+    --info: 210 80% 50%;
+    --info-foreground: 0 0% 100%;
+
+    --border: 32 18% 88%;
+    --input: 32 18% 86%;
+    --ring: 95 38% 36%;
+
+    --sidebar: 30 18% 14%;
+    --sidebar-foreground: 36 24% 90%;
+    --sidebar-muted: 32 10% 60%;
+    --sidebar-accent: 95 35% 42%;
+    --sidebar-border: 30 14% 22%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 28 14% 8%;
+    --foreground: 36 20% 92%;
+
+    --card: 28 13% 11%;
+    --card-foreground: 36 20% 92%;
+
+    --popover: 28 13% 11%;
+    --popover-foreground: 36 20% 92%;
+
+    --primary: 95 42% 48%;
+    --primary-foreground: 95 50% 8%;
+
+    --secondary: 28 10% 18%;
+    --secondary-foreground: 36 18% 88%;
+
+    --muted: 28 10% 16%;
+    --muted-foreground: 32 8% 58%;
+
+    --accent: 28 12% 20%;
+    --accent-foreground: 36 18% 90%;
+
+    --destructive: 0 62% 52%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 50% 46%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 88% 56%;
+    --warning-foreground: 30 30% 10%;
+
+    --info: 210 78% 58%;
+    --info-foreground: 0 0% 100%;
+
+    --border: 28 10% 20%;
+    --input: 28 10% 22%;
+    --ring: 95 42% 48%;
+
+    --sidebar: 28 16% 10%;
+    --sidebar-foreground: 36 22% 88%;
+    --sidebar-muted: 32 8% 52%;
+    --sidebar-accent: 95 40% 52%;
+    --sidebar-border: 28 12% 18%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    @apply bg-primary/20;
+  }
+}
+
+@layer components {
+  .card-surface {
+    @apply rounded-xl border border-border bg-card text-card-foreground shadow-card;
+  }
+
+  .focus-ring {
+    @apply outline-none ring-offset-2 ring-offset-background focus-visible:ring-2 focus-visible:ring-ring;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--border)) transparent;
+  }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border;
+  }
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .grid-bg {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .glass {
+    @apply bg-background/70 backdrop-blur-xl;
+  }
+}
+
+/* Mapbox overrides to blend with the design system */
+.mapboxgl-ctrl-logo,
+.mapboxgl-ctrl-attrib {
+  opacity: 0.5;
+}
+.mapboxgl-popup-content {
+  @apply rounded-lg border border-border bg-card text-card-foreground shadow-elevated;
+  padding: 0;
+}
+.mapboxgl-popup-close-button {
+  @apply text-muted-foreground;
+  padding: 4px 8px;
+}
+.mapboxgl-popup-tip {
+  border-top-color: hsl(var(--card)) !important;
+  border-bottom-color: hsl(var(--card)) !important;
+}
