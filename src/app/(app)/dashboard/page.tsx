@@ -60,33 +60,65 @@ export default function DashboardPage() {
         }
       />
 
-      {/* KPI row */}
-      <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <StatCard label="Registered Farmers" value={kpis.farmers} delta={4.2} icon={Users} accent="primary" spark={[12, 18, 15, 22, 26, 24, 30]} />
-        <StatCard label="Mapped Farms" value={kpis.farms} delta={2.8} icon={Sprout} accent="success" spark={[40, 42, 48, 46, 52, 58, 60]} />
-        <StatCard label="Total Area" value={kpis.totalArea} suffix="ha" delta={1.4} icon={Mountain} accent="info" spark={[20, 22, 21, 25, 27, 28, 30]} />
-        <StatCard label="Annual Production" value={kpis.production} suffix="kg" delta={-3.1} icon={Coffee} accent="coffee" spark={[60, 58, 62, 55, 50, 48, 46]} />
+      {/* Map-first hero: full-width GIS canvas with floating glass KPI cards */}
+      <div className="relative overflow-hidden rounded-xl border border-white/10 shadow-glass">
+        <CoffeeMap
+          layers={layers}
+          mapStyle={mapStyle}
+          className="h-[560px] w-full"
+        />
+
+        {/* Floating live badge */}
+        <div className="pointer-events-none absolute left-4 top-4">
+          <span className="inline-flex items-center gap-1.5 rounded-full glass-panel px-3 py-1.5 text-xs font-medium">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-optimal opacity-75" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-optimal" />
+            </span>
+            Live · Bukidnon coffee landscape
+          </span>
+        </div>
+
+        {/* Floating layer control */}
+        <div className="absolute right-4 top-4">
+          <LayerControl layers={layers} onChange={setLayers} mapStyle={mapStyle} onStyleChange={setMapStyle} />
+        </div>
+
+        {/* Floating glass KPI strip */}
+        <div className="pointer-events-none absolute inset-x-4 bottom-4 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <StatCard label="Registered Farmers" value={kpis.farmers} delta={4.2} icon={Users} accent="primary" spark={[12, 18, 15, 22, 26, 24, 30]} />
+          <StatCard label="Mapped Farms" value={kpis.farms} delta={2.8} icon={Sprout} accent="success" spark={[40, 42, 48, 46, 52, 58, 60]} />
+          <StatCard label="Total Area" value={kpis.totalArea} suffix="ha" delta={1.4} icon={Mountain} accent="info" spark={[20, 22, 21, 25, 27, 28, 30]} />
+          <StatCard label="Annual Production" value={kpis.production} suffix="kg" delta={-3.1} icon={Coffee} accent="coffee" spark={[60, 58, 62, 55, 50, 48, 46]} />
+        </div>
       </div>
 
-      {/* Map + side column */}
+      {/* Supporting panels */}
       <div className="mt-4 grid grid-cols-1 gap-4 xl:grid-cols-3">
-        <Card className="relative overflow-hidden xl:col-span-2">
-          <div className="flex items-center justify-between border-b border-border px-5 py-3">
-            <div>
-              <CardTitle>Interactive GIS Map</CardTitle>
-              <CardDescription className="mt-0.5">
-                Coffee heatmap · cooperative coverage · validation overlay
-              </CardDescription>
-            </div>
-            <Badge variant="success">Live</Badge>
-          </div>
-          <div className="relative h-[460px]">
-            <CoffeeMap layers={layers} mapStyle={mapStyle} className="absolute inset-0 h-full w-full" />
-            <div className="absolute right-4 top-4">
-              <LayerControl layers={layers} onChange={setLayers} mapStyle={mapStyle} onStyleChange={setMapStyle} />
-            </div>
-          </div>
-        </Card>
+        <div className="grid grid-cols-1 gap-4 xl:col-span-2 lg:grid-cols-3">
+          <Card className="lg:col-span-2">
+            <CardHeader className="pb-2">
+              <CardTitle>Production Trend</CardTitle>
+              <CardDescription>Monthly green coffee output (kg) by variety</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-64">
+                <ProductionAreaChart data={productionSeries} />
+              </div>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="pb-2">
+              <CardTitle>Variety Mix</CardTitle>
+              <CardDescription>Share of farms</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="h-64">
+                <VarietyPieChart data={varietyDistribution} />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
 
         <div className="space-y-4">
           {/* Alerts */}
@@ -129,7 +161,7 @@ export default function DashboardPage() {
               {["Provincial", "Production", "Variety Mix", "Data Quality"].map((r) => (
                 <button
                   key={r}
-                  className="flex items-center justify-between rounded-lg border border-border px-3 py-2.5 text-left text-sm font-medium transition-colors hover:border-primary/40 hover:bg-accent"
+                  className="flex items-center justify-between rounded-lg border border-border px-3 py-2.5 text-left text-sm font-medium transition-colors hover:border-optimal/50 hover:bg-accent"
                 >
                   {r}
                   <ArrowUpRight className="h-3.5 w-3.5 text-muted-foreground" />
@@ -138,32 +170,6 @@ export default function DashboardPage() {
             </CardContent>
           </Card>
         </div>
-      </div>
-
-      {/* Charts row */}
-      <div className="mt-4 grid grid-cols-1 gap-4 lg:grid-cols-3">
-        <Card className="lg:col-span-2">
-          <CardHeader className="pb-2">
-            <CardTitle>Production Trend</CardTitle>
-            <CardDescription>Monthly green coffee output (kg) by variety</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <ProductionAreaChart data={productionSeries} />
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle>Variety Distribution</CardTitle>
-            <CardDescription>Share of mapped farms</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="h-64">
-              <VarietyPieChart data={varietyDistribution} />
-            </div>
-          </CardContent>
-        </Card>
       </div>
 
       {/* Recent activity + top coops */}

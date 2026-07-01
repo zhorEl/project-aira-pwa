@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Sora, JetBrains_Mono } from "next/font/google";
+import { Inter, Hanken_Grotesk, JetBrains_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 import "mapbox-gl/dist/mapbox-gl.css";
@@ -9,7 +9,8 @@ const sans = Inter({
   variable: "--font-sans",
   display: "swap",
 });
-const display = Sora({
+// Hanken Grotesk — sharp, technical headline face per the Stitch design system
+const display = Hanken_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
@@ -32,8 +33,8 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafaf8" },
-    { media: "(prefers-color-scheme: dark)", color: "#16130f" },
+    { media: "(prefers-color-scheme: light)", color: "#f3f5f0" },
+    { media: "(prefers-color-scheme: dark)", color: "#121410" },
   ],
 };
 
@@ -47,8 +48,8 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="light"
-          enableSystem
+          defaultTheme="dark"
+          enableSystem={false}
           disableTransitionOnChange
         >
           {children}
