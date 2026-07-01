@@ -7,14 +7,19 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary/10 text-primary",
+        default: "border-transparent bg-optimal/12 text-optimal",
         secondary: "border-transparent bg-secondary text-secondary-foreground",
         outline: "border-border text-foreground",
-        success: "border-transparent bg-success/12 text-success",
+        success: "border-transparent bg-success/15 text-success",
         warning: "border-transparent bg-warning/15 text-warning",
-        destructive: "border-transparent bg-destructive/12 text-destructive",
-        info: "border-transparent bg-info/12 text-info",
+        destructive: "border-transparent bg-destructive/15 text-destructive",
+        info: "border-transparent bg-info/15 text-info",
         muted: "border-transparent bg-muted text-muted-foreground",
+        // Stitch verification pipeline — high-contrast chips
+        draft: "border-transparent bg-verification-draft/15 text-verification-draft",
+        submitted: "border-transparent bg-verification-submitted/15 text-verification-submitted",
+        verified: "border-transparent bg-verification-verified/15 text-verification-verified",
+        official: "border-transparent bg-verification-official/20 text-verification-official",
       },
     },
     defaultVariants: {

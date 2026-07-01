@@ -127,7 +127,7 @@ export default function MapPage() {
         </div>
 
         {/* Bottom legend chip */}
-        <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-lg border border-border bg-card/90 px-3 py-2 text-xs backdrop-blur">
+        <div className="absolute bottom-4 left-4 flex items-center gap-2 rounded-lg glass-panel px-3 py-2 text-xs">
           <Badge variant="success">Live data</Badge>
           <span className="text-muted-foreground">
             {formatNumber(farms.length)} farms · updated 4 min ago

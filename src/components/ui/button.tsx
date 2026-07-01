@@ -7,17 +7,19 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        // Stitch primary: solid optimal-lime with dark text
         default:
-          "bg-primary text-primary-foreground shadow-soft hover:bg-primary/90",
+          "bg-optimal text-optimal-foreground shadow-soft hover:bg-optimal/90 font-semibold",
+        // Stitch secondary: glassmorphic with white border
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+          "btn-glass text-foreground hover:bg-foreground/10",
         outline:
           "border border-input bg-transparent hover:bg-accent hover:text-accent-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         destructive:
           "bg-destructive text-destructive-foreground shadow-soft hover:bg-destructive/90",
-        link: "text-primary underline-offset-4 hover:underline",
-        subtle: "bg-primary/10 text-primary hover:bg-primary/20",
+        link: "text-optimal underline-offset-4 hover:underline",
+        subtle: "bg-optimal/12 text-optimal hover:bg-optimal/20",
       },
       size: {
         default: "h-10 px-4 py-2",

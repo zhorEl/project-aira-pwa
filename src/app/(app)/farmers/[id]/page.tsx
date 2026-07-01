@@ -139,7 +139,7 @@ export default function FarmerProfilePage({ params }: { params: Promise<{ id: st
             <TabsContent value="farms" className="mt-4 space-y-3">
               {ownedFarms.map((f) => (
                 <Link key={f.id} href={`/farms/${f.id}`}>
-                  <Card className="transition-colors hover:border-primary/40">
+                  <Card className="transition-colors hover:border-optimal/50">
                     <CardContent className="flex items-center gap-4 py-4">
                       <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-leaf-100 text-leaf-700 dark:bg-leaf-900/40 dark:text-leaf-300">
                         <Sprout className="h-5 w-5" />

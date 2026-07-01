@@ -22,17 +22,17 @@ export function StatCard({
   className?: string;
 }) {
   const accents: Record<string, string> = {
-    primary: "bg-primary/10 text-primary",
-    info: "bg-info/10 text-info",
+    primary: "bg-optimal/12 text-optimal",
+    info: "bg-info/12 text-info",
     warning: "bg-warning/15 text-warning",
-    success: "bg-success/12 text-success",
-    coffee: "bg-coffee-500/15 text-coffee-700 dark:text-coffee-300",
-    destructive: "bg-destructive/12 text-destructive",
+    success: "bg-success/15 text-success",
+    coffee: "bg-layer-coffee/20 text-layer-coffee dark:text-coffee-300",
+    destructive: "bg-destructive/15 text-destructive",
   };
   return (
     <div
       className={cn(
-        "group relative overflow-hidden rounded-xl border border-border bg-card p-5 shadow-card transition-shadow hover:shadow-elevated",
+        "group relative overflow-hidden rounded-lg border border-white/10 bg-card/70 p-5 shadow-card backdrop-blur-md transition-shadow hover:shadow-glass",
         className
       )}
     >
@@ -40,7 +40,7 @@ export function StatCard({
         <div className="min-w-0">
           <p className="truncate text-sm font-medium text-muted-foreground">{label}</p>
           <div className="mt-2 flex items-baseline gap-1.5">
-            <span className="font-display text-2xl font-bold tracking-tight">
+            <span className="font-display text-3xl font-bold tracking-tight">
               {typeof value === "number" ? formatCompact(value) : value}
             </span>
             {suffix && (
@@ -87,7 +87,7 @@ function Sparkline({ data, className }: { data: number[]; className?: string }) 
     <svg
       viewBox={`0 0 ${w} ${h}`}
       preserveAspectRatio="none"
-      className={cn("h-7 w-full text-primary/60", className)}
+      className={cn("h-7 w-full text-optimal/70", className)}
     >
       <polyline
         points={pts}

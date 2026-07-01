@@ -41,7 +41,7 @@ export function LayerControl({
   return (
     <div
       className={cn(
-        "w-60 rounded-xl border border-border bg-card/95 p-3 shadow-elevated backdrop-blur",
+        "w-60 rounded-lg glass-panel p-3",
         className
       )}
     >

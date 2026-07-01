@@ -2,97 +2,139 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+  AIRA Nexus design system — sourced from the Stitch "Agro-Intelligence Narrative"
+  design spec (dark-mode-first, glassmorphism, map-first). Dark is the default
+  look; a light variant is preserved for the theme toggle.
+  Tokens are stored as raw HSL channels so Tailwind's hsl(var(--x)) works and
+  opacity modifiers (bg-primary/10) stay valid.
+*/
+
 @layer base {
+  /* ---------- LIGHT (toggle) ---------- */
   :root {
-    --background: 40 30% 98%;
-    --foreground: 30 12% 12%;
+    --background: 90 12% 96%;
+    --foreground: 100 8% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 30 12% 12%;
+    --card-foreground: 100 8% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 30 12% 12%;
+    --popover-foreground: 100 8% 12%;
 
-    --primary: 95 38% 36%;
-    --primary-foreground: 80 60% 97%;
+    --primary: 96 33% 30%;            /* forest / primary-container #2d4f1e */
+    --primary-foreground: 96 40% 96%;
 
-    --secondary: 30 25% 94%;
-    --secondary-foreground: 30 20% 22%;
+    --secondary: 90 10% 90%;
+    --secondary-foreground: 100 10% 20%;
 
-    --muted: 36 24% 95%;
-    --muted-foreground: 30 8% 44%;
+    --muted: 90 10% 92%;
+    --muted-foreground: 100 6% 40%;
 
-    --accent: 30 35% 92%;
-    --accent-foreground: 28 35% 25%;
+    --accent: 96 30% 88%;
+    --accent-foreground: 96 33% 24%;
 
-    --destructive: 0 72% 48%;
+    --destructive: 0 72% 46%;
     --destructive-foreground: 0 0% 100%;
 
-    --success: 142 60% 38%;
-    --success-foreground: 0 0% 100%;
+    --success: 84 60% 40%;            /* status-optimal lime, muted for light */
+    --success-foreground: 96 40% 12%;
 
-    --warning: 38 92% 48%;
+    --warning: 38 92% 50%;            /* status-attention #F59E0B */
     --warning-foreground: 30 30% 12%;
 
-    --info: 210 80% 50%;
+    --info: 199 89% 48%;              /* verification-submitted #38BDF8 */
     --info-foreground: 0 0% 100%;
 
-    --border: 32 18% 88%;
-    --input: 32 18% 86%;
-    --ring: 95 38% 36%;
+    --border: 96 8% 84%;
+    --input: 96 8% 82%;
+    --ring: 84 74% 55%;               /* optimal-lime focus glow */
 
-    --sidebar: 30 18% 14%;
-    --sidebar-foreground: 36 24% 90%;
-    --sidebar-muted: 32 10% 60%;
-    --sidebar-accent: 95 35% 42%;
-    --sidebar-border: 30 14% 22%;
+    --sidebar: 100 44% 8%;            /* forest-deep-ish */
+    --sidebar-foreground: 90 12% 90%;
+    --sidebar-muted: 100 6% 58%;
+    --sidebar-accent: 100 34% 44%;
+    --sidebar-border: 100 18% 20%;
 
-    --radius: 0.75rem;
+    /* Signature accents (available in both modes) */
+    --optimal: 84 74% 55%;            /* #A3E635 */
+    --optimal-foreground: 96 60% 10%;
+
+    /* Verification pipeline */
+    --v-draft: 215 20% 65%;           /* #94A3B8 */
+    --v-submitted: 199 89% 60%;       /* #38BDF8 */
+    --v-verified: 142 69% 58%;        /* #4ADE80 */
+    --v-official: 258 90% 66%;        /* #8B5CF6 */
+
+    /* Commodity layers */
+    --layer-coffee: 25 33% 33%;       /* #6F4E37 */
+    --layer-cacao: 0 12% 21%;         /* #3B2F2F */
+    --layer-corn: 43 96% 56%;         /* #FBBF24 */
+
+    --radius: 0.5rem;
   }
 
+  /* ---------- DARK (default look) ---------- */
   .dark {
-    --background: 28 14% 8%;
-    --foreground: 36 20% 92%;
+    --background: 100 9% 7%;          /* surface #121410 */
+    --foreground: 75 6% 88%;          /* on-surface #e2e3dc */
 
-    --card: 28 13% 11%;
-    --card-foreground: 36 20% 92%;
+    --card: 100 8% 11%;               /* surface-container #1e201c */
+    --card-foreground: 75 6% 88%;
 
-    --popover: 28 13% 11%;
-    --popover-foreground: 36 20% 92%;
+    --popover: 96 9% 13%;             /* surface-container-high #282b26 */
+    --popover-foreground: 75 6% 88%;
 
-    --primary: 95 42% 48%;
-    --primary-foreground: 95 50% 8%;
+    --primary: 96 42% 70%;            /* primary #a9d293 */
+    --primary-foreground: 100 76% 13%;/* on-primary #173809 */
 
-    --secondary: 28 10% 18%;
-    --secondary-foreground: 36 18% 88%;
+    --secondary: 96 6% 16%;           /* surface-container-low */
+    --secondary-foreground: 80 10% 80%;
 
-    --muted: 28 10% 16%;
-    --muted-foreground: 32 8% 58%;
+    --muted: 100 6% 14%;
+    --muted-foreground: 90 8% 70%;    /* on-surface-variant #c3c8bb */
 
-    --accent: 28 12% 20%;
-    --accent-foreground: 36 18% 90%;
+    --accent: 96 6% 20%;              /* surface-container-highest */
+    --accent-foreground: 75 8% 88%;
 
-    --destructive: 0 62% 52%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 6 100% 84%;        /* error #ffb4ab */
+    --destructive-foreground: 0 100% 21%;
 
-    --success: 142 50% 46%;
-    --success-foreground: 0 0% 100%;
+    --success: 84 74% 55%;            /* status-optimal #A3E635 */
+    --success-foreground: 96 60% 10%;
 
-    --warning: 38 88% 56%;
-    --warning-foreground: 30 30% 10%;
+    --warning: 38 92% 50%;            /* #F59E0B */
+    --warning-foreground: 30 30% 8%;
 
-    --info: 210 78% 58%;
-    --info-foreground: 0 0% 100%;
+    --info: 199 89% 60%;              /* #38BDF8 */
+    --info-foreground: 205 100% 12%;
 
-    --border: 28 10% 20%;
-    --input: 28 10% 22%;
-    --ring: 95 42% 48%;
+    --border: 96 8% 26%;              /* outline-variant #43493e */
+    --input: 96 8% 24%;
+    --ring: 84 74% 55%;               /* optimal-lime glow */
 
-    --sidebar: 28 16% 10%;
-    --sidebar-foreground: 36 22% 88%;
-    --sidebar-muted: 32 8% 52%;
-    --sidebar-accent: 95 40% 52%;
-    --sidebar-border: 28 12% 18%;
+    --sidebar: 100 46% 13%;           /* forest-deep #1A2E12 */
+    --sidebar-foreground: 75 6% 89%;
+    --sidebar-muted: 96 8% 58%;
+    --sidebar-accent: 84 74% 55%;     /* optimal lime highlight */
+    --sidebar-border: 100 20% 20%;
+
+    --optimal: 84 74% 55%;
+    --optimal-foreground: 96 60% 10%;
+
+    --v-draft: 215 20% 65%;
+    --v-submitted: 199 89% 60%;
+    --v-verified: 142 69% 58%;
+    --v-official: 258 90% 66%;
+
+    --layer-coffee: 25 33% 45%;
+    --layer-cacao: 0 12% 30%;
+    --layer-corn: 43 96% 56%;
+  }
+
+  /* Dark is the default aesthetic even before JS hydrates next-themes */
+  html {
+    color-scheme: dark;
   }
 
   * {
@@ -107,13 +149,29 @@
   }
 
   ::selection {
-    @apply bg-primary/20;
+    @apply bg-optimal/25;
   }
 }
 
 @layer components {
   .card-surface {
-    @apply rounded-xl border border-border bg-card text-card-foreground shadow-card;
+    @apply rounded-lg border border-border bg-card text-card-foreground shadow-card;
+  }
+
+  /* Glassmorphism — Stitch Level 1 (subtle overlay) for map controls/legends */
+  .glass-panel {
+    background: hsl(var(--card) / 0.72);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    @apply border border-white/10 shadow-glass;
+  }
+
+  /* Glass secondary button per Stitch: transparent + white border */
+  .btn-glass {
+    background: hsl(var(--foreground) / 0.04);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    @apply border border-white/15;
   }
 
   .focus-ring {
@@ -149,6 +207,10 @@
   .glass {
     @apply bg-background/70 backdrop-blur-xl;
   }
+  /* Legible text plate over map imagery (Stitch requirement) */
+  .map-label {
+    text-shadow: 0 1px 2px rgb(0 0 0 / 0.65);
+  }
 }
 
 /* Mapbox overrides to blend with the design system */
@@ -157,7 +219,9 @@
   opacity: 0.5;
 }
 .mapboxgl-popup-content {
-  @apply rounded-lg border border-border bg-card text-card-foreground shadow-elevated;
+  @apply rounded-lg border border-white/10 text-card-foreground shadow-glass;
+  background: hsl(var(--card) / 0.85);
+  backdrop-filter: blur(12px);
   padding: 0;
 }
 .mapboxgl-popup-close-button {
@@ -167,4 +231,10 @@
 .mapboxgl-popup-tip {
   border-top-color: hsl(var(--card)) !important;
   border-bottom-color: hsl(var(--card)) !important;
+}
+.mapboxgl-ctrl-group {
+  @apply overflow-hidden border border-white/10 !bg-card/80 shadow-glass backdrop-blur;
+}
+.mapboxgl-ctrl-group button + button {
+  @apply border-t border-white/10;
 }

@@ -62,6 +62,24 @@ const config: Config = {
           accent: "hsl(var(--sidebar-accent))",
           border: "hsl(var(--sidebar-border))",
         },
+        // Stitch signature accent — "status-optimal" lime
+        optimal: {
+          DEFAULT: "hsl(var(--optimal))",
+          foreground: "hsl(var(--optimal-foreground))",
+        },
+        // Verification pipeline spectrum
+        verification: {
+          draft: "hsl(var(--v-draft))",
+          submitted: "hsl(var(--v-submitted))",
+          verified: "hsl(var(--v-verified))",
+          official: "hsl(var(--v-official))",
+        },
+        // Commodity map layers
+        layer: {
+          coffee: "hsl(var(--layer-coffee))",
+          cacao: "hsl(var(--layer-cacao))",
+          corn: "hsl(var(--layer-corn))",
+        },
         // Brand coffee/earth palette
         coffee: {
           50: "#faf6f1",
@@ -91,11 +109,15 @@ const config: Config = {
         },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        // Stitch rounded scale: sm .25 / DEFAULT .5 / md .75 / lg 1 / xl 1.5rem
+        sm: "0.25rem",
+        DEFAULT: "0.5rem",
+        md: "0.75rem",
+        lg: "1rem",
+        xl: "1.5rem",
       },
       fontFamily: {
+        // Inter = body/label workhorse; Hanken Grotesk = display/headline
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
         display: ["var(--font-display)", "system-ui", "sans-serif"],
         mono: ["var(--font-mono)", "monospace"],
@@ -104,7 +126,9 @@ const config: Config = {
         soft: "0 1px 2px 0 rgb(0 0 0 / 0.04), 0 1px 6px -1px rgb(0 0 0 / 0.06)",
         card: "0 1px 3px 0 rgb(0 0 0 / 0.05), 0 1px 2px -1px rgb(0 0 0 / 0.05)",
         elevated: "0 4px 16px -2px rgb(0 0 0 / 0.10), 0 2px 8px -2px rgb(0 0 0 / 0.06)",
-        glow: "0 0 0 1px hsl(var(--primary) / 0.15), 0 4px 20px -4px hsl(var(--primary) / 0.30)",
+        // Stitch Level 3 pop-over glow + glass panel shadow
+        glass: "0 10px 15px -3px rgb(0 0 0 / 0.5), 0 4px 6px -4px rgb(0 0 0 / 0.4)",
+        glow: "0 0 0 1px hsl(var(--optimal) / 0.20), 0 4px 20px -4px hsl(var(--optimal) / 0.35)",
       },
       keyframes: {
         "fade-in": {
